@@ -11,6 +11,7 @@ var applePart
 var apple
 var newDir
 var directions = []
+var score = 0
 
 var played = false
 var deathAnimIndex = 0
@@ -39,12 +40,13 @@ func _unhandled_input(event):
 #	print(_debugDirs[newDir])
 
 func _on_Timer_timeout():
-	
+	#move snake
 	for i in range(segments.size()-1, 0, -1):
 		segments[i].position = segments[i-1].position
 		directions[i] = directions[i-1]
 	directions[0] = newDir
 	
+	#move head
 	match newDir:
 		LEFT:
 			segments[0].position += Vector2(-32,0)
@@ -54,7 +56,7 @@ func _on_Timer_timeout():
 		UP:
 			segments[0].position += Vector2(0,-32)
 			if segments[0].position.y < 0:
-				segments[0].position.y+=512
+				segments[0].position.y+=480
 			setFrame(0,3)
 		RIGHT:
 			segments[0].position += Vector2(32,0)
@@ -63,18 +65,18 @@ func _on_Timer_timeout():
 			setFrame(0,4)
 		DOWN:
 			segments[0].position += Vector2(0,32)
-			if segments[0].position.y >= 512:
-				segments[0].position.y-=512
+			if segments[0].position.y >= 480:
+				segments[0].position.y-=480
 			setFrame(0,9)
-	
+	#setting frames for segments
 	for i in range(segments.size()-2, 0, -1):
-		#Туловище
+		#body
 		if directions[i] == directions[i-1]:
 			if directions[i] == LEFT || directions[i] == RIGHT:
 				setFrame(i,1)
 			if (directions[i] == UP || directions[i] == DOWN):
 				setFrame(i,7)
-		#Повороты
+		#turns
 		else:
 			if directions[i] == LEFT && directions[i-1] == DOWN || directions[i] == UP && directions[i-1] == RIGHT: 
 				setFrame(i,0)
@@ -84,7 +86,7 @@ func _on_Timer_timeout():
 				setFrame(i,5)
 			if directions[i] == RIGHT && directions[i-1] == UP || directions[i] == DOWN && directions[i-1] == LEFT:
 				setFrame(i,12)
-	#Хвост
+	#tail
 	if directions[directions.size()-2] == UP:
 		setFrame(directions.size()-1,13)
 	if directions[directions.size()-2] == RIGHT:
@@ -94,13 +96,16 @@ func _on_Timer_timeout():
 	if directions[directions.size()-2] == DOWN:
 		setFrame(directions.size()-1,19)
 	
+	#eat aple
 	if segments[0].position == apple.position:	
 		played = true
+		score+=1
+		$scoreboard.text = "Score: " + String(score)
 		applePart.position = segments[0].position + Vector2(16,16)
-		$Particles2D.restart()
+		$background/Particles2D.restart()
 		segments.append(segmentScene.instance())
 		segments.back().set_name("seg"+String(segments.size()-1))
-		add_child(segments.back())
+		$background.add_child(segments.back())
 		segments.back().position = segments[segments.size()-2].position
 		directions.append(directions[directions.size()-1])
 		setFrame(directions.size()-1, getFrame(directions.size()-2))
@@ -113,6 +118,9 @@ func _on_Timer_timeout():
 					break
 			if posCorrect == true:
 				break
+	for i in range(segments.size()-1):
+		if segments[0].position == segments[i].position && i > 0:
+			get_tree().reload_current_scene()
 				
 func spawnSnake():
 	if !segments.empty():
@@ -132,17 +140,16 @@ func spawnSnake():
 		if i == 2:
 			segments.back().segNum = 13
 		segments.back().set_name("seg"+String(segments.size()-1))
-		add_child(segments.back())		
+		$background.add_child(segments.back())		
 		segments.back().position = Vector2(640/2,(512/2)+(32*i))
 
 func spawnApple():	
 	apple = appleScene.instance()
-	add_child(apple)
+	$background.add_child(apple)
 	applePart = applePartScene.instance()
-	add_child(applePart)
+	$background.add_child(applePart)
 	
 func getFrame(index):
-#		return get_node("seg"+String(index)+"/snake-Tiles").frame
 		return segments[index].get_node("snake-Tiles").frame
 		
 func setFrame(index, _frame):
