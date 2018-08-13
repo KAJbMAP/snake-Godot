@@ -111,7 +111,7 @@ func _on_Timer_timeout():
 		setFrame(directions.size()-1, getFrame(directions.size()-2))
 		while true:
 			var posCorrect = true
-			apple.position = Vector2(randi()%20*32,randi()%16*32)
+			apple.position = Vector2(randi()%20*32,randi()%15*32)
 			for _seg in segments:
 				if _seg.position == apple.position:
 					posCorrect = false
