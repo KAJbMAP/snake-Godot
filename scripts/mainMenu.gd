@@ -5,4 +5,4 @@ func _on_Button2_button_up():
 
 
 func _on_Button_button_up():	
-	get_tree().change_scene("res://scene.tscn")
+	get_tree().change_scene("res://scenes/scene.tscn")

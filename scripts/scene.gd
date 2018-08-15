@@ -3,9 +3,13 @@ extends Node2D
 enum Dir {LEFT, UP, RIGHT, DOWN}
 
 var segments = []
-onready var segmentScene = load("res://segment.tscn")
-onready var appleScene = load("res://apple.tscn")
-onready var applePartScene = load("res://aplePart.tscn")
+onready var segmentScene = load("res://scenes/segment.tscn")
+onready var appleScene = load("res://scenes/apple.tscn")
+onready var applePartScene = load("res://scenes/aplePart.tscn")
+
+var segmentPixelSize = Vector2(32,32)
+var worldSize = Vector2(20,15)
+var worldPixelSize = segmentPixelSize*worldSize
 
 var applePart
 var apple
@@ -22,7 +26,7 @@ func _ready():
 	randomize()
 	spawnApple()	
 	spawnSnake()
-	apple.position = Vector2(randi()%20*32,randi()%16*32)
+	apple.position = Vector2(randi()%int(worldSize.x)*segmentPixelSize.x,randi()%int(worldSize.y)*segmentPixelSize.y)
 
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("ui_left"):
@@ -49,24 +53,24 @@ func _on_Timer_timeout():
 	#move head
 	match newDir:
 		LEFT:
-			segments[0].position += Vector2(-32,0)
+			segments[0].position.x += -segmentPixelSize.x 
 			if segments[0].position.x < 0:
-				segments[0].position.x+=640
+				segments[0].position.x+=worldPixelSize.x
 			setFrame(0,8)
 		UP:
-			segments[0].position += Vector2(0,-32)
+			segments[0].position.y += -segmentPixelSize.y
 			if segments[0].position.y < 0:
-				segments[0].position.y+=480
+				segments[0].position.y+=worldPixelSize.y
 			setFrame(0,3)
 		RIGHT:
-			segments[0].position += Vector2(32,0)
-			if segments[0].position.x >= 640:
-				segments[0].position.x-=640
+			segments[0].position.x += segmentPixelSize.x
+			if segments[0].position.x >= worldPixelSize.x:
+				segments[0].position.x-=worldPixelSize.x
 			setFrame(0,4)
 		DOWN:
-			segments[0].position += Vector2(0,32)
-			if segments[0].position.y >= 480:
-				segments[0].position.y-=480
+			segments[0].position.y += segmentPixelSize.y
+			if segments[0].position.y >= worldPixelSize.y:
+				segments[0].position.y-=worldPixelSize.y
 			setFrame(0,9)
 	#setting frames for segments
 	for i in range(segments.size()-2, 0, -1):
@@ -111,7 +115,7 @@ func _on_Timer_timeout():
 		setFrame(directions.size()-1, getFrame(directions.size()-2))
 		while true:
 			var posCorrect = true
-			apple.position = Vector2(randi()%20*32,randi()%15*32)
+			apple.position = Vector2(randi()%int(worldSize.x)*segmentPixelSize.x,randi()%int(worldSize.y)*segmentPixelSize.y)
 			for _seg in segments:
 				if _seg.position == apple.position:
 					posCorrect = false
@@ -141,7 +145,7 @@ func spawnSnake():
 			segments.back().segNum = 13
 		segments.back().set_name("seg"+String(segments.size()-1))
 		$background.add_child(segments.back())		
-		segments.back().position = Vector2(640/2,(512/2)+(32*i))
+		segments.back().position = Vector2(worldPixelSize.x/2,(worldPixelSize.y/2-16)+(segmentPixelSize.y*i))
 
 func spawnApple():	
 	apple = appleScene.instance()

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Over.png-7a315439fb112cc23642af86afad65f0.stex"
+path="res://.import/appleParticles.png-29907fea592ad3cbde37103caf558bd4.stex"
 
 [deps]
 
-source_file="res://Over.png"
-dest_files=[ "res://.import/Over.png-7a315439fb112cc23642af86afad65f0.stex" ]
+source_file="res://textures/appleParticles.png"
+dest_files=[ "res://.import/appleParticles.png-29907fea592ad3cbde37103caf558bd4.stex" ]
 
 [params]
 

@@ -1,9 +1,14 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://animatedButton.gd" type="Script" id=1]
-[ext_resource path="res://idle.tres.anim" type="Animation" id=2]
-[ext_resource path="res://scale.tres.anim" type="Animation" id=3]
-[ext_resource path="res://unScale.tres.anim" type="Animation" id=4]
+[ext_resource path="res://scripts/animatedButton.gd" type="Script" id=1]
+[ext_resource path="res://animations/idle.tres.anim" type="Animation" id=2]
+[ext_resource path="res://animations/scale.tres.anim" type="Animation" id=3]
+[ext_resource path="res://animations/unScale.tres.anim" type="Animation" id=4]
+
+
+
+
+
 
 [sub_resource type="Animation" id=1]
 

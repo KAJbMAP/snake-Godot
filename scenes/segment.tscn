@@ -1,7 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://segment.gd" type="Script" id=1]
-[ext_resource path="res://snake-Tiles.png" type="Texture" id=2]
+[ext_resource path="res://scripts/segment.gd" type="Script" id=1]
+[ext_resource path="res://textures/snake-Tiles.png" type="Texture" id=2]
+
+
 
 [sub_resource type="Animation" id=1]
 

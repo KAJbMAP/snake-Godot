@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/snake-Tiles.png-2796115049fde7dca318548fa490256a.stex"
+path="res://.import/Progress.png-1df28cdc1f605486c5df19b2ce025589.stex"
 
 [deps]
 
-source_file="res://snake-Tiles.png"
-dest_files=[ "res://.import/snake-Tiles.png-2796115049fde7dca318548fa490256a.stex" ]
+source_file="res://textures/Progress.png"
+dest_files=[ "res://.import/Progress.png-1df28cdc1f605486c5df19b2ce025589.stex" ]
 
 [params]
 
