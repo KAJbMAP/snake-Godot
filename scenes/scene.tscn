@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/scene.gd" type="Script" id=1]
 [ext_resource path="res://textures/background.png" type="Texture" id=2]
+[ext_resource path="res://font/PixelFont.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFontData" id=1]
 
@@ -10,10 +11,18 @@ font_path = "res://font/PixelFont.ttf"
 
 [sub_resource type="DynamicFont" id=2]
 
-size = 25
+size = 23
 use_mipmaps = false
 use_filter = false
 font_data = SubResource( 1 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 23
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 3 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [node name="scene" type="Node2D" index="0"]
@@ -21,14 +30,25 @@ _sections_unfolded = [ "Font", "Settings" ]
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Pause" ]
 
-[node name="background" type="Sprite" parent="." index="0"]
+[node name="background" type="TextureRect" parent="." index="0"]
 
-position = Vector2( 0, 32 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 32.0
+margin_right = 640.0
+margin_bottom = 512.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
 texture = ExtResource( 2 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 0, 0, 640, 480 )
-_sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform" ]
+expand = true
+stretch_mode = 2
+_sections_unfolded = [ "Rect" ]
 
 [node name="Timer" type="Timer" parent="." index="1"]
 
@@ -44,14 +64,34 @@ wait_time = 0.03
 one_shot = false
 autostart = true
 
-[node name="scoreboard" type="Label" parent="." index="3"]
+[node name="Panel" type="Panel" parent="." index="3"]
 
+pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0.961294 )
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 1.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = -238.0
+margin_right = 640.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Material", "Pause", "Rect", "Visibility" ]
+
+[node name="scoreboard" type="Label" parent="Panel" index="0"]
+
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-margin_right = 157.0
-margin_bottom = -29.0
+margin_left = -116.0
+margin_top = -33.0
+margin_right = 116.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -60,14 +100,82 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Score: 0"
+align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Rect", "custom_fonts" ]
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Visibility", "custom_fonts" ]
+
+[node name="notice" type="Label" parent="Panel" index="1"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -116.0
+margin_top = -17.0
+margin_right = 116.0
+margin_bottom = 16.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "You lose"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="restartBtn" type="Button" parent="Panel" index="2"]
+
+pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -66.0
+margin_top = -50.0
+margin_right = 65.0
+margin_bottom = -11.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 3 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Restart"
+flat = false
+align = 1
+_sections_unfolded = [ "Pause", "Rect", "Visibility" ]
+
+[node name="Tween" type="Tween" parent="." index="4"]
+
+pause_mode = 2
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+_sections_unfolded = [ "Pause" ]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [connection signal="timeout" from="animTimer" to="." method="_on_animTimer_timeout"]
+
+[connection signal="button_up" from="Panel/restartBtn" to="." method="_on_Restart_button_up"]
 
 

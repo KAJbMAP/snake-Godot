@@ -22,11 +22,12 @@ var deathAnimIndex = 0
 
 var _debugDirs = {LEFT : "Left", UP : "Up", RIGHT : "Right", DOWN : "Down"}
 
-func _ready():
+func _ready():	
 	randomize()
 	spawnApple()	
 	spawnSnake()
 	apple.position = Vector2(randi()%int(worldSize.x)*segmentPixelSize.x,randi()%int(worldSize.y)*segmentPixelSize.y)
+	$Panel/restartBtn.hide()
 
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("ui_left"):
@@ -104,7 +105,7 @@ func _on_Timer_timeout():
 	if segments[0].position == apple.position:	
 		played = true
 		score+=1
-		$scoreboard.text = "Score: " + String(score)
+		$Panel/scoreboard.text = "Score: " + String(score)
 		applePart.position = segments[0].position + Vector2(16,16)
 		$background/Particles2D.restart()
 		segments.append(segmentScene.instance())
@@ -124,8 +125,13 @@ func _on_Timer_timeout():
 				break
 	for i in range(segments.size()-1):
 		if segments[0].position == segments[i].position && i > 0:
-			get_tree().reload_current_scene()
-				
+			$Tween.interpolate_property($Panel, "rect_position", $Panel.rect_position, Vector2(0,0), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			$Tween.interpolate_property($"Panel/scoreboard", "rect_position", $Panel/scoreboard.rect_position, Vector2(204,160), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			$Tween.interpolate_property($"Panel/restartBtn", "self_modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, 1) 
+			$Tween.start()
+			$"Panel/restartBtn".show()
+			get_tree().paused = true
+			
 func spawnSnake():
 	if !segments.empty():
 		for i in segments:
@@ -166,3 +172,7 @@ func _on_animTimer_timeout():
 		if deathAnimIndex == segments.size():
 			deathAnimIndex = 0
 			played = false
+
+func _on_Restart_button_up():	
+	get_tree().reload_current_scene()
+	get_tree().paused = false
