@@ -4,7 +4,7 @@
 [ext_resource path="res://textures/background.png" type="Texture" id=2]
 [ext_resource path="res://scenes/animatedButton.tscn" type="PackedScene" id=3]
 
-[node name="mainMenu" type="Node2D"]
+[node name="mainMenu" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -36,7 +36,7 @@ margin_bottom = 216.0
 rect_pivot_offset = Vector2( 102, 25 )
 mouse_default_cursor_shape = 2
 text = "Start game"
-_sections_unfolded = [ "Margin", "Mouse", "Rect", "custom_fonts", "custom_styles" ]
+_sections_unfolded = [ "Margin", "Material", "Mouse", "Rect", "custom_fonts", "custom_styles" ]
 
 [node name="Button2" parent="." index="2" instance=ExtResource( 3 )]
 

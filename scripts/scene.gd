@@ -31,26 +31,26 @@ func _ready():
 
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("ui_left"):
-		if newDir != RIGHT:
+		if directions[0] != RIGHT:
 			newDir = LEFT
 	elif Input.is_action_just_pressed("ui_up"):
-		if newDir != DOWN:
+		if directions[0] != DOWN:
 			newDir = UP
 	elif Input.is_action_just_pressed("ui_right"):
-		if newDir != LEFT:
+		if directions[0] != LEFT:
 			newDir = RIGHT
 	elif Input.is_action_just_pressed("ui_down"):
-		if newDir != UP:
+		if directions[0] != UP:
 			newDir = DOWN	
 #	print(_debugDirs[newDir])
 
-func _on_Timer_timeout():
+func _on_Timer_timeout():	
 	#move snake
 	for i in range(segments.size()-1, 0, -1):
 		segments[i].position = segments[i-1].position
 		directions[i] = directions[i-1]
 	directions[0] = newDir
-	
+		
 	#move head
 	match newDir:
 		LEFT:
@@ -72,7 +72,8 @@ func _on_Timer_timeout():
 			segments[0].position.y += segmentPixelSize.y
 			if segments[0].position.y >= worldPixelSize.y:
 				segments[0].position.y-=worldPixelSize.y
-			setFrame(0,9)
+			setFrame(0,9)	
+	
 	#setting frames for segments
 	for i in range(segments.size()-2, 0, -1):
 		#body
@@ -102,7 +103,7 @@ func _on_Timer_timeout():
 		setFrame(directions.size()-1,19)
 	
 	#eat aple
-	if segments[0].position == apple.position:	
+	if segments[0].position == apple.position or Input.is_key_pressed(KEY_R):	
 		played = true
 		score+=1
 		$Panel/scoreboard.text = "Score: " + String(score)
@@ -123,7 +124,8 @@ func _on_Timer_timeout():
 					break
 			if posCorrect == true:
 				break
-	for i in range(segments.size()-1):
+				
+	for i in range(segments.size()):
 		if segments[0].position == segments[i].position && i > 0:
 			$Tween.interpolate_property($Panel, "rect_position", $Panel.rect_position, Vector2(0,0), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 			$Tween.interpolate_property($"Panel/scoreboard", "rect_position", $Panel/scoreboard.rect_position, Vector2(204,160), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
