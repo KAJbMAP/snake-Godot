@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/scene.gd" type="Script" id=1]
 [ext_resource path="res://textures/background.png" type="Texture" id=2]
@@ -24,6 +24,23 @@ use_mipmaps = false
 use_filter = false
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="InputEventKey" id=4]
+
+device = 0
+alt = false
+shift = false
+control = false
+meta = false
+command = false
+pressed = false
+scancode = 16777221
+unicode = 0
+echo = false
+
+[sub_resource type="ShortCut" id=5]
+
+shortcut = SubResource( 4 )
 
 [node name="scene" type="Node2D" index="0"]
 
@@ -135,6 +152,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [node name="restartBtn" type="Button" parent="Panel" index="2"]
 
 pause_mode = 2
+visible = false
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -154,7 +172,7 @@ size_flags_vertical = 1
 custom_fonts/font = SubResource( 3 )
 toggle_mode = false
 enabled_focus_mode = 2
-shortcut = null
+shortcut = SubResource( 5 )
 group = null
 text = "Restart"
 flat = false

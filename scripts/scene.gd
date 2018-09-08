@@ -26,20 +26,20 @@ func _ready():
 	randomize()
 	spawnApple()	
 	spawnSnake()
-	apple.position = Vector2(randi()%int(worldSize.x)*segmentPixelSize.x,randi()%int(worldSize.y)*segmentPixelSize.y)
-	$Panel/restartBtn.hide()
-
-func _unhandled_input(event):
-	if Input.is_action_just_pressed("ui_left"):
+	apple.position = Vector2(randi()%int(worldSize.x)*segmentPixelSize.x,randi()%int(worldSize.y)*segmentPixelSize.y)	
+	
+	
+func _unhandled_input(event):	
+	if Input.is_action_pressed("ui_left"):
 		if directions[0] != RIGHT:
 			newDir = LEFT
-	elif Input.is_action_just_pressed("ui_up"):
+	elif Input.is_action_pressed("ui_up"):
 		if directions[0] != DOWN:
 			newDir = UP
-	elif Input.is_action_just_pressed("ui_right"):
+	elif Input.is_action_pressed("ui_right"):
 		if directions[0] != LEFT:
 			newDir = RIGHT
-	elif Input.is_action_just_pressed("ui_down"):
+	elif Input.is_action_pressed("ui_down"):
 		if directions[0] != UP:
 			newDir = DOWN	
 #	print(_debugDirs[newDir])
@@ -127,7 +127,7 @@ func _on_Timer_timeout():
 				
 	for i in range(segments.size()):
 		if segments[0].position == segments[i].position && i > 0:
-			$Tween.interpolate_property($Panel, "rect_position", $Panel.rect_position, Vector2(0,0), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+			$Tween.interpolate_property($Panel, "rect_position", $Panel.rect_position, Vector2(0,0), 1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			$Tween.interpolate_property($"Panel/scoreboard", "rect_position", $Panel/scoreboard.rect_position, Vector2(204,160), 1, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 			$Tween.interpolate_property($"Panel/restartBtn", "self_modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, 1) 
 			$Tween.start()
